@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="/assets/favicon.ico" type="image/x-icon">
+    <title>Register - Shortify</title>
+    <link rel="stylesheet" href="/css/confirm.css">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<style>
+    body {
+        overflow: hidden;
+    }
+</style>
+
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">Shortify</div>
+            <button id="theme-toggle" class="theme-toggle"><i class='bxr bx-moon'></i> </button>
+        </header>
+
+        <main>
+            <div class="auth-form">
+                <h2>Create an Account</h2>
+
+                <div id="alert" class="alert" style="display: none;"></div>
+
+                <form id="register-form">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required minlength="6">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword" required minlength="6">
+                    </div>
+
+                    <button type="submit" class="btn btn-block">Register</button>
+                </form>
+
+                <p class="text-center mt-3">Already have an account? <a href="/login" class="link">Login</a></p>
+            </div>
+        </main>
+    </div>
+
+    <script src="/js/utils.js" type="module"></script>
+    <script src="/js/auth.js" type="module"></script>
+</body>
+
+</html>

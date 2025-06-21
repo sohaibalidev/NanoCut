@@ -1,0 +1,122 @@
+/* Error Page Container */
+.error-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+    text-align: center;
+    padding: 2rem;
+}
+
+/* Error Card */
+.error-card {
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    padding: 2.5rem;
+    box-shadow: var(--shadow);
+    max-width: 600px;
+    width: 100%;
+    border: 1px solid var(--border-color);
+}
+
+/* Error Icon */
+.error-icon {
+    font-size: 4rem;
+    color: var(--danger-color);
+    margin-bottom: 1.5rem;
+}
+
+/* Error Title */
+.error-title {
+    font-size: 1.75rem;
+    color: var(--danger-color);
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+/* Error Message */
+.error-message {
+    color: var(--text-color);
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+/* Error Actions */
+.error-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .error-card {
+        padding: 1.5rem;
+    }
+
+    .error-icon {
+        font-size: 3rem;
+    }
+
+    .error-title {
+        font-size: 1.5rem;
+    }
+}
+
+.error-reasons {
+    text-align: left;
+    margin: 1.5rem auto;
+    max-width: 400px;
+    list-style: none;
+}
+
+.error-reasons li {
+    margin-bottom: 0.8rem;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.error-reasons i {
+    position: absolute;
+    left: 0;
+    top: 0.2em;
+    margin-top: 2px;
+    color: var(--danger-color);
+}
+
+.error-suggestion {
+    margin-top: 1.5rem;
+    font-size: 0.95em;
+    color: var(--text-color);
+    opacity: 0.9;
+}
+
+.error-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+}
+
+@media (max-width: 480px) {
+    .error-actions {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .error-actions .btn {
+        width: 100%;
+    }
+}

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="/assets/favicon.ico" type="image/x-icon">
+
+    <title>Dashboard - Shortify</title>
+    <link rel="stylesheet" href="/css/confirm.css">
+    <link rel="stylesheet" href="/css/notifier.css">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+    <div id="notify"></div>
+
+    <div class="container">
+        <header>
+            <div class="logo">Shortify</div>
+            <!-- <div>
+                <button id="theme-toggle" class="theme-toggle"><i class='bxr bx-moon'></i> </button>
+                <button id="logout-btn" class="btn btn-sm">Logout</button>
+            </div> -->
+            <div class="action-button-group">
+                <button id="theme-toggle" class="icon-action-btn theme-switcher-btn">
+                    <i class="bxr bx-sun-dim"></i>
+                </button>
+                <button id="logout-btn" class="text-action-btn action-btn-sm">Logout</button>
+            </div>
+        </header>
+
+        <main>
+            <div class="dashboard-header">
+                <h1 class="dashboard-title">Your Short URLs</h1>
+            </div>
+
+            <form id="url-form" class="url-form" autocomplete="off">
+                <input type="url" id="original-url" placeholder="Enter long URL" required>
+                <input type="text" id="custom-name" placeholder="Custom name (optional)">
+                <select id="expires-in">
+                    <option value="7">Expires in 7 days</option>
+                    <option value="30" selected>Expires in 30 days</option>
+                    <option value="90">Expires in 90 days</option>
+                    <option value="365">Expires in 1 year</option>
+                </select>
+                <button type="submit" class="btn">Shorten</button>
+            </form>
+
+            <ul id="url-list" class="url-list">
+                <!-- URLs will be loaded here -->
+            </ul>
+        </main>
+    </div>
+
+    <script src="/js/utils.js" type="module"></script>
+    <script src="/js/notifier.js" type="module"></script>
+    <script src="/js/dashboard.js" type="module"></script>
+</body>
+
+</html>
