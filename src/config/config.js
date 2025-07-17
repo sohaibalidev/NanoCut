@@ -3,7 +3,7 @@ require('dotenv').config();
 module.exports = {
     PORT: process.env.PORT || 3000,
     BASE_URL: process.env.BASE_URL || 'http://192.168.100.4',
-    NODE_ENV: process.env.NODE_ENV || 'development',
+    NODE_ENV: process.env.NODE_ENV,
     DB_NAME: process.env.DB_NAME || 'NanoCut',
     MONGODB_URI: process.env.MONGODB_URI,
     JWT_SECRET: process.env.JWT_SECRET,
