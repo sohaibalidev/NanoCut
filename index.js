@@ -9,6 +9,7 @@ const config = require('./src/config/config');
 const auth = require('./src/utils/auth');
 
 // Route imports
+const sitemap = require('./src/service/sitemap');
 const urlRoutes = require('./src/routes/urlRoutes');
 const authRoutes = require('./src/routes/authRoutes');
 const { redirectToOriginal } = require('./src/controllers/urlController');
@@ -26,6 +27,7 @@ app.use(cors({
 app.use(express.static(path.join(__dirname, 'public')));
 
 // ====================== ROUTES ======================
+app.use('/', sitemap);
 app.use('/api/', urlRoutes);
 app.use('/api/auth', authRoutes);
 
@@ -36,6 +38,21 @@ app.get('/googleef63d2354e249e22.html', (_, res) => {
     res.send('google-site-verification: googleef63d2354e249e22.html');
 });
 
+app.get('/robots.txt', (req, res) => {
+    const isDev = config.NODE_ENV === 'development';
+    const baseUrl = isDev
+        ? `${config.BASE_URL}:${config.PORT}`
+        : `${config.BASE_URL}`;
+
+    const lines = [
+        'User-agent: *',
+        'Allow: /',
+        `Sitemap: ${baseUrl}/sitemap.xml`
+    ];
+
+    res.type('text/plain');
+    res.send(lines.join('\n'));
+});
 
 // ====================== VIEW ROUTES ======================
 /**
@@ -98,10 +115,10 @@ app.use((req, res) => {
 connectDB()
     .then(() => {
         app.listen(config.PORT, () => {
-            const isDev = config.NODE_ENV === 'development'
+            const isDev = config.NODE_ENV === 'development';
             const serverUrl = isDev
                 ? `${config.BASE_URL}:${config.PORT}`
-                : `${config.PORT}`
+                : config.BASE_URL;
             console.log(`Server running on ${serverUrl}`);
         });
     })
