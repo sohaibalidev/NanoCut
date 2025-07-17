@@ -21,12 +21,12 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(cors({
     origin: config.BASE_URL,
-    credentials: true 
+    credentials: true
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // ====================== ROUTES ======================
-app.use('/api/', urlRoutes); 
+app.use('/api/', urlRoutes);
 app.use('/api/auth', authRoutes);
 
 app.get('/u/:shortId', redirectToOriginal);
@@ -83,17 +83,15 @@ app.use((req, res) => {
     res.status(404).send('404 Not Found - ' + req.path);
 });
 
-// Error handler (add this after all other middleware)
-app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).send('Something broke!');
-});
-
 // ====================== SERVER STARTUP ======================
 connectDB()
     .then(() => {
         app.listen(config.PORT, () => {
-            console.log(`Server running on ${config.BASE_URL}:${config.PORT}`);
+            const isDev = config.NODE_ENV === 'development'
+            const serverUrl = isDev
+                ? `${config.BASE_URL}:${config.PORT}`
+                : `${config.PORT}`
+            console.log(`Server running on ${serverUrl}`);
         });
     })
     .catch((err) => {

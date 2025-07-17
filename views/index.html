@@ -8,9 +8,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <!-- Primary SEO Tags -->
-    <title>Shortify - Modern URL Shortener & Link Management</title>
+    <title>NanoCut - Modern URL Shortener & Link Management</title>
     <meta name="description"
-        content="Create, manage, and track short URLs with Shortify. Free custom link shortening with analytics and dashboard.">
+        content="Create, manage, and track short URLs with NanoCut. Free custom link shortening with analytics and dashboard.">
     <meta name="keywords" content="URL shortener, link shortener, short links, link management, free URL shortening">
 
     <!-- Favicon -->
@@ -18,25 +18,26 @@
     <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 
     <!-- Open Graph / Social -->
-    <meta property="og:title" content="Shortify - Modern URL Shortener & Link Management">
+    <meta property="og:title" content="NanoCut - Modern URL Shortener & Link Management">
     <meta property="og:description"
-        content="Create, manage, and track short URLs with Shortify. Free custom link shortening with analytics.">
+        content="Create, manage, and track short URLs with NanoCut. Free custom link shortening with analytics.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://shortify.example.com">
-    <meta property="og:image" content="https://shortify.example.com/assets/social-preview.png">
+    <meta property="og:url" content="https://NanoCut.example.com">
+    <meta property="og:image" content="https://NanoCut.example.com/assets/social-preview.png">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Shortify - Modern URL Shortener & Link Management">
+    <meta name="twitter:title" content="NanoCut - Modern URL Shortener & Link Management">
     <meta name="twitter:description"
-        content="Create, manage, and track short URLs with Shortify. Free custom link shortening with analytics.">
-    <meta name="twitter:image" content="https://shortify.example.com/assets/social-preview.png">
+        content="Create, manage, and track short URLs with NanoCut. Free custom link shortening with analytics.">
+    <meta name="twitter:image" content="https://NanoCut.example.com/assets/social-preview.png">
 
     <!-- Canonical -->
-    <link rel="canonical" href="https://shortify.example.com">
+    <link rel="canonical" href="https://NanoCut.example.com">
 
     <!-- CSS (order matters) -->
     <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/index.css">
     <link rel="stylesheet" href="/css/confirm.css">
 
     <!-- Icon Fonts -->
@@ -46,28 +47,98 @@
     <!-- Preload -->
     <link rel="preload" href="/css/styles.css" as="style">
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style">
+
 </head>
 
-<body>
+<body style="overflow: hidden;">
     <div class="container">
         <header>
-            <div class="logo">Shortify</div>
-            <button id="theme-toggle" class="theme-toggle"><i class='bxr bx-moon'></i> </button>
+            <div class="logo">
+                <span>NanoCut</span>
+            </div>
+            <nav class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#faq">FAQ</a>
+                <a href="#blog">Blog</a>
+            </nav>
+            <div class="header-actions">
+                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                    <i class='bx bx-moon'></i>
+                </button>
+                <div class="auth-options">
+                    <a href="/login" class="btn btn-outline">Login</a>
+                    <a href="/register" class="btn btn-primary">Get Started</a>
+                </div>
+            </div>
         </header>
 
         <main>
-            <h1>Welcome to Shortify</h1>
-            <p>A simple tool to shorten your long URLs</p>
+            <section class="hero">
+                <div class="hero-content">
+                    <h1>Short links, big results</h1>
+                    <p class="hero-text">Create branded, short URLs with powerful analytics to track your audience and
+                        optimize your marketing.</p>
 
-            <div class="auth-options">
-                <a href="/login" class="btn">Login</a>
-                <a href="/register" class="btn">Register</a>
-            </div>
+                    <div class="url-shortener">
+                        <div class="input-group">
+                            <input type="url" id="url-input" placeholder="Paste your long URL here" autocomplete="off" required>
+                            <button class="btn btn-primary" id="shorten-btn">Shorten</button>
+                        </div>
+                        <p class="disclaimer">By shortening a URL, you agree to our <a href="#terms">Terms of
+                                Service</a></p>
+                    </div>
+
+                    <div class="trust-badges">
+                        <div class="badge">
+                            <i class='bx bx-shield-alt-2'></i>
+                            <span>Secure Links</span>
+                        </div>
+                        <div class="badge">
+                            <i class='bx bx-rocket'></i>
+                            <span>Fast Redirects</span>
+                        </div>
+                        <div class="badge">
+                            <i class='bx bx-bar-chart'></i>
+                            <span>Powerful Analytics</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="/assets/icon.png" alt="NanoCut" loading="lazy">
+                </div>
+            </section>
         </main>
     </div>
 
     <script src="/js/utils.js" type="module"></script>
     <script src="/js/auth.js" type="module"></script>
+
+    <script>
+        const shortenBtn = document.getElementById('shorten-btn');
+        const shortenInp = document.getElementById('url-input');
+
+        shortenBtn.addEventListener('click', handleShortenUrl);
+
+        shortenInp.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                handleShortenUrl();
+            }
+        });
+
+        function handleShortenUrl() {
+            const toShortenUrl = shortenInp.value.trim();
+            if (!toShortenUrl.startsWith('https://') || toShortenUrl.length < 14) {
+                shortenInp.value = '';
+                shortenInp.placeholder = 'Enter A Valid URL';
+                return;
+            }
+
+            sessionStorage.setItem('urlToShorten', toShortenUrl);
+            location.assign('/register');
+        }
+    </script>
+
 </body>
 
 </html>

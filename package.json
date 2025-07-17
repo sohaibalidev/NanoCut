@@ -1,26 +1,33 @@
 {
-  "name": "shortify",
+  "name": "nanocut",
   "version": "1.0.0",
+  "description": "Precision URL shortener with analytics and expiration",
   "main": "index.js",
+  "type": "commonjs",
   "scripts": {
     "start": "node index.js",
+    "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "url-shortener",
+    "link-shortener",
+    "Muhammad Sohaib Ali",
+    "sohaibalidev"
+  ],
+  "author": "Muhammad Sohaib Ali",
   "license": "ISC",
-  "description": "",
   "dependencies": {
-    "bcryptjs": "^3.0.2",
-    "body-parser": "^2.2.0",
-    "cookie-parser": "^1.4.7",
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
-    "crypto": "^1.0.1",
-    "dotenv": "^16.5.0",
-    "express": "^5.1.0",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",
-    "mongodb": "^6.17.0",
-    "nodemailer": "^7.0.3",
-    "nodemon": "^3.1.10"
+    "mongodb": "^6.2.0",
+    "nodemailer": "^6.9.8"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
   }
 }

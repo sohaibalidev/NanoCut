@@ -1,261 +1,3 @@
-// import { toggleTheme, handleApiError, formatDate, isValidUrl } from './utils.js';
-
-// document.addEventListener('DOMContentLoaded', () => {
-//     // Theme toggle
-//     const themeToggle = document.getElementById('theme-toggle');
-//     if (themeToggle) {
-//         themeToggle.addEventListener('click', toggleTheme);
-//     }
-
-//     loadUrls();
-
-//     // Logout button
-//     const logoutBtn = document.getElementById('logout-btn');
-//     if (logoutBtn) {
-//         logoutBtn.addEventListener('click', async () => {
-//             try {
-//                 const response = await fetch('/api/auth/logout', {
-//                     method: 'POST',
-//                     credentials: 'include'
-//                 });
-
-//                 const data = await response.json();
-
-//                 if (!response.ok) {
-//                     throw new Error(data.error || 'Logout failed');
-//                 }
-
-//                 window.location.href = '/login';
-//             } catch (err) {
-//                 handleApiError(err);
-//             }
-//         });
-//     }
-
-//     // URL Shortener form
-//     const urlForm = document.getElementById('url-form');
-//     if (urlForm) {
-//         urlForm.addEventListener('submit', async (e) => {
-//             e.preventDefault();
-
-//             const originalUrl = document.getElementById('original-url').value;
-//             const customName = document.getElementById('custom-name').value;
-//             const expiresIn = document.getElementById('expires-in').value;
-
-//             if (!isValidUrl(originalUrl)) {
-//                 handleApiError({ message: 'Please enter a valid URL' });
-//                 return;
-//             }
-
-//             try {
-//                 const response = await fetch('/api/urls', {
-//                     method: 'POST',
-//                     headers: {
-//                         'Content-Type': 'application/json'
-//                     },
-//                     body: JSON.stringify({ originalUrl, customName, expiresIn }),
-//                     credentials: 'include'
-//                 });
-
-//                 const data = await response.json();
-
-//                 if (!response.ok) {
-//                     throw new Error(data.error || 'Failed to create short URL');
-//                 }
-
-//                 // Reload URLs
-//                 loadUrls();
-
-//                 // Clear form
-//                 urlForm.reset();
-
-//                 // Show success message
-//                 const alertElement = document.getElementById('alert');
-//                 alertElement.textContent = 'URL shortened successfully!';
-//                 alertElement.className = 'alert alert-success';
-//                 alertElement.style.display = 'block';
-//                 setTimeout(() => {
-//                     alertElement.style.display = 'none';
-//                 }, 3000);
-//             } catch (err) {
-//                 handleApiError(err);
-//             }
-//         });
-//     }
-
-//     // Load user's URLs
-//     async function loadUrls() {
-//         try {
-//             const response = await fetch('/api/urls', {
-//                 credentials: 'include'
-//             });
-
-//             const urls = await response.json();
-
-//             if (!response.ok) {
-//                 throw new Error(urls.error || 'Failed to load URLs');
-//             }
-
-//             renderUrls(urls);
-//         } catch (err) {
-//             handleApiError(err);
-//         }
-//     };
-
-//     // Render URLs
-//     const renderUrls = (urls) => {
-//         const urlList = document.getElementById('url-list');
-//         if (!urlList) return;
-
-//         urlList.innerHTML = '';
-
-//         if (urls.length === 0) {
-//             urlList.innerHTML = '<p>No URLs found. Create your first short URL above!</p>';
-//             return;
-//         }
-
-//         urls.forEach(url => {
-//             const urlItem = document.createElement('li');
-//             urlItem.className = 'url-item';
-
-//             const isExpired = url.expiresAt && new Date(url.expiresAt) < new Date();
-//             const statusClass = !url.isActive || isExpired ? 'inactive' : 'active';
-//             const statusText = !url.isActive ? 'Inactive' : isExpired ? 'Expired' : 'Active';
-//             const shortUrl = `${window.location.origin}/u/${url.shortId}`;
-
-//             urlItem.innerHTML = `
-//                 <div class="url-item-header">
-//                     <a href="/u/${url.shortId}" target="_blank" class="url-short">${shortUrl}</a>
-//                     <span class="url-status ${statusClass}">
-//                         <i class="fas ${statusClass === 'active' ? 'fa-check-circle' : 'fa-times-circle'}"></i> ${statusText}
-//                     </span>
-//                 </div>
-//                 <p class="url-original">
-//                     <i class="fas fa-link"></i> ${url.originalUrl}
-//                 </p>
-//                 <div class="url-meta">
-//                     <span><i class="fas fa-fingerprint"></i> ${url.shortId}</span>
-//                     <span><i class="fas fa-chart-bar"></i> ${url.clicks} clicks</span>
-//                     <span><i class="far fa-calendar-alt"></i> ${formatDate(url.createdAt)}</span>
-//                     <span><i class="far fa-clock"></i> ${formatDate(url.expiresAt)}</span>
-//                 </div>
-//                 <div class="url-actions">
-//                     <button class="btn btn-sm btn-copy" data-url="${shortUrl}" title="Copy to clipboard" aria-label="Copy URL">
-//                         <i class="far fa-copy btn-icon"></i>
-//                         <span class="btn-text">Copy</span>
-//                     </button>
-
-//                     <div class="toggle-container">
-//                         <label class="toggle-switch">
-//                             <input type="checkbox" ${url.isActive && !isExpired ? 'checked' : ''} data-id="${url.uid}" aria-label="Toggle URL active status">
-//                             <span class="toggle-slider"></span>
-//                         </label>
-//                         <span class="toggle-label">${url.isActive && !isExpired ? 'Active' : 'Inactive'}</span>
-//                     </div>
-
-//                     <button class="btn btn-sm btn-danger" data-id="${url.uid}" aria-label="Delete URL">
-//                         <i class="far fa-trash-alt btn-icon"></i>
-//                         <span class="btn-text">Delete</span>
-//                     </button>
-//                 </div>
-//             `;
-
-//             // Safer copy function with fallback
-//             const copyBtn = urlItem.querySelector('.btn-copy');
-//             copyBtn.addEventListener('click', async () => {
-//                 try {
-//                     if (navigator.clipboard) {
-//                         await navigator.clipboard.writeText(shortUrl);
-//                     } else {
-//                         // Fallback for browsers without Clipboard API
-//                         const textarea = document.createElement('textarea');
-//                         textarea.value = shortUrl;
-//                         textarea.style.position = 'fixed';  // Prevent scrolling
-//                         document.body.appendChild(textarea);
-//                         textarea.select();
-//                         document.execCommand('copy');
-//                         document.body.removeChild(textarea);
-//                     }
-
-//                     // Visual feedback
-//                     copyBtn.classList.add('copied');
-//                     setTimeout(() => copyBtn.classList.remove('copied'), 2000);
-
-//                 } catch (err) {
-//                     console.error('Failed to copy:', err);
-//                     // Fallback feedback
-//                     const originalText = copyBtn.textContent;
-//                     copyBtn.textContent = 'Press Ctrl+C';
-//                     setTimeout(() => {
-//                         copyBtn.textContent = originalText;
-//                     }, 2000);
-//                 }
-//             });
-
-//             urlList.appendChild(urlItem);
-//         });
-
-//         // Add event listeners for toggle switches
-//         document.querySelectorAll('.toggle-switch input').forEach(toggle => {
-//             toggle.addEventListener('change', async (e) => {
-//                 const urlId = e.target.dataset.id;
-//                 const isActive = e.target.checked;
-
-//                 try {
-//                     const response = await fetch(`/api/urls/${urlId}`, {
-//                         method: 'PUT',
-//                         headers: {
-//                             'Content-Type': 'application/json'
-//                         },
-//                         body: JSON.stringify({ isActive }),
-//                         credentials: 'include'
-//                     });
-
-//                     const data = await response.json();
-
-//                     if (!response.ok) {
-//                         throw new Error(data.error || 'Failed to update URL status');
-//                     }
-
-//                     // Reload URLs to reflect changes
-//                     loadUrls();
-//                 } catch (err) {
-//                     handleApiError(err);
-//                     // Revert the toggle if there was an error
-//                     e.target.checked = !isActive;
-//                 }
-//             });
-//         });
-
-//         // Add event listeners for delete buttons
-//         document.querySelectorAll('.btn-danger').forEach(btn => {
-//             btn.addEventListener('click', async (e) => {
-//                 const urlId = e.target.dataset.id;
-
-//                 if (confirm('Are you sure you want to delete this URL?')) {
-//                     try {
-//                         const response = await fetch(`/api/urls/${urlId}`, {
-//                             method: 'DELETE',
-//                             credentials: 'include'
-//                         });
-
-//                         const data = await response.json();
-
-//                         if (!response.ok) {
-//                             throw new Error(data.error || 'Failed to delete URL');
-//                         }
-
-//                         // Reload URLs
-//                         loadUrls();
-//                     } catch (err) {
-//                         handleApiError(err);
-//                     }
-//                 }
-//             });
-//         });
-//     };
-// });
-
 import { toggleTheme, handleApiError, formatDate, isValidUrl } from './utils.js';
 import { notify } from './notifier.js';
 
@@ -284,6 +26,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initial Load
     loadUrls();
+
+    (() => {
+        const urlToShorten = sessionStorage.getItem('urlToShorten');
+        if (!urlToShorten) return;
+
+        const longUrlInp = document.getElementById('original-url');
+        if (longUrlInp) longUrlInp.value = urlToShorten;
+
+        handleUrlSubmit(event)
+
+        sessionStorage.removeItem('urlToShorten')
+
+        // notify(`You can now shorten your URL: "${cleanUrl}"`, 'info');
+    })();
 
     // ====================== CORE FUNCTIONS ======================
     async function handleLogout() {
@@ -511,23 +267,35 @@ document.addEventListener('DOMContentLoaded', () => {
     function attachUrlEventHandlers() {
         // Copy Buttons
         document.querySelectorAll('.btn-copy').forEach(btn => {
-            btn.addEventListener('click', async () => {
+            btn.addEventListener('click', () => {
                 const url = btn.dataset.url;
-                try {
-                    await navigator.clipboard.writeText(url);
-                    btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
-                    setTimeout(() => {
-                        btn.innerHTML = '<i class="far fa-copy"></i> Copy';
-                    }, 2000);
-                } catch (err) {
-                    console.error('Copy failed:', err);
-                    btn.textContent = 'Press Ctrl+C to copy';
-                    setTimeout(() => {
-                        btn.innerHTML = '<i class="far fa-copy"></i> Copy';
-                    }, 2000);
-                }
+                if (!url) return;
+
+                // Create hidden textarea
+                const textarea = document.createElement('textarea');
+                textarea.value = url;
+                textarea.style.position = 'fixed'; // Avoid scrolling to bottom
+                textarea.style.opacity = '0';
+                document.body.appendChild(textarea);
+
+                // Select and copy
+                textarea.select();
+                document.execCommand('copy');
+
+                // Clean up
+                document.body.removeChild(textarea);
+
+                // Feedback
+                btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                btn.disabled = true;
+
+                setTimeout(() => {
+                    btn.innerHTML = '<i class="far fa-copy"></i> Copy';
+                    btn.disabled = false;
+                }, 2000);
             });
         });
+
 
         // Toggle Switches
         document.querySelectorAll('.toggle-switch input').forEach(toggle => {
