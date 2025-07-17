@@ -1,6 +1,6 @@
-# **Nanocut - Precision URL Shortener**  
+# **NanoCut - Precision URL Shortener**  
 
-**Nanocut** is a high-performance URL shortening service built for **speed, analytics, and control**. Create, manage, and track short links with surgical precision.  
+**NanoCut** is a high-performance URL shortening service built for **speed, analytics, and control**. Create, manage, and track short links with surgical precision.  
 
 ---
 

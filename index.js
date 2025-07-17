@@ -80,7 +80,12 @@ app.get('/dashboard', async (req, res) => {
 // ====================== ERROR HANDLING ======================
 // 404 Handler
 app.use((req, res) => {
-    res.status(404).send('404 Not Found - ' + req.path);
+    res.status(404).json({
+        status: 404,
+        error: 'Not Found',
+        method: req.method,
+        path: req.originalUrl,
+    });
 });
 
 // ====================== SERVER STARTUP ======================
