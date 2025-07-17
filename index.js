@@ -31,6 +31,9 @@ app.use('/api/auth', authRoutes);
 
 app.get('/u/:shortId', redirectToOriginal);
 
+app.get('googleef63d2354e249e22.html', (_, res) =>
+    res.end('google-site-verification: googleef63d2354e249e22.html'))
+
 // ====================== VIEW ROUTES ======================
 /**
  * Home Route - Redirects to dashboard if authenticated
