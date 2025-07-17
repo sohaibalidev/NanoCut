@@ -31,8 +31,11 @@ app.use('/api/auth', authRoutes);
 
 app.get('/u/:shortId', redirectToOriginal);
 
-app.get('googleef63d2354e249e22.html', (_, res) =>
-    res.end('google-site-verification: googleef63d2354e249e22.html'))
+app.get('/googleef63d2354e249e22.html', (_, res) => {
+    res.set('Content-Type', 'text/html');
+    res.send('google-site-verification: googleef63d2354e249e22.html');
+});
+
 
 // ====================== VIEW ROUTES ======================
 /**
